@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    image: docker.dev.54gradsoftware.dev/54gradsoftware/taiga2matrix
+    restart: always
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.taiga2matrixHttp.rule=Host(`taiga2matrix.dev.54gradsoftware.dev`)"
+      - "traefik.http.routers.taiga2matrixHttp.entrypoints=http"
+      - "traefik.http.routers.taiga2matrixHttp.middlewares=redirecttls"
+      - "traefik.http.middlewares.redirecttls.redirectscheme.scheme=https"
+
+      - "traefik.http.routers.taiga2matrix.rule=Host(`taiga2matrix.dev.54gradsoftware.dev`)"
+      - "traefik.http.routers.taiga2matrix.entrypoints=https"
+      - "traefik.http.services.taiga2matrix.loadbalancer.server.port=3000"
+      - "traefik.http.routers.taiga2matrix.tls.certresolver=mytlschallenge"
+      - "traefik.docker.network=web"
+
+networks:
+  web:
+    external: true
