@@ -1,0 +1,39 @@
+---
+kind: pipeline
+type: docker
+name: build
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      registry: docker.dev.54gradsoftware.dev
+      repo: docker.dev.54gradsoftware.dev/54gradsoftware/taiga2matrix
+      tags: latest
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+kind: pipeline
+type: docker
+name: deploy
+
+depends_on:
+  - build
+
+steps:
+  - name: pull and deploy
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: SSH_HOST
+      username:
+        from_secret: SSH_USER_NAME
+      key:
+        from_secret: SSH_PRIVATE_KEY
+      script: |
+        cd /media/docker/taiga2matrix
+        docker-compose -p taiga2matrix -f docker-compose.prod.yml pull -q
+        docker-compose -p taiga2matrix -f docker-compose.prod.yml up -d

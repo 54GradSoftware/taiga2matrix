@@ -19,3 +19,5 @@ router.post('/hook/:roomId/event', async (req, res) => {
   res.status(200);
   res.send({ message: 'successfully sent matrix event' });
 });
+
+app.listen(port);
