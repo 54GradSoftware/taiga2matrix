@@ -4,6 +4,8 @@ services:
   app:
     image: docker.dev.54gradsoftware.dev/54gradsoftware/taiga2matrix
     restart: always
+    env_file:
+      - .env
     networks:
       - web
     labels:

@@ -7,4 +7,7 @@ export const store = {
     userId: process.env.MATRIX_USER_ID,
     accessToken: process.env.MATRIX_ACCESS_TOKEN,
   },
+  taiga: {
+    webhookSecret: process.env.TAIGA_WEBHOOK_SECRET,
+  }
 };

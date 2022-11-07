@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/54GradSoftware/taiga2matrix#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "matrix-js-sdk": "^21.0.1",
