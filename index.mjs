@@ -14,6 +14,7 @@ router.use(express.json());
 app.use('/api/v1', router);
 
 router.post('/hook/:roomId/event', async (req, res) => {
+  console.log('event:', req.body);
   const { roomId } = req.params;
   if (!req.body?.content?.body) {
     res.status(400);
