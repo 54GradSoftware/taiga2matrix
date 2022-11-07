@@ -28,7 +28,7 @@ router
     if (req.headers['x-taiga-webhook-signature'] !== hash) {
       res.status(403);
       res.send({ message: 'event is missing data' });
-      console.log('unauthorized:', req.headers);
+      console.log('unauthorized:', req.headers, hash);
       return;
     }
     next();
