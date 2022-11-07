@@ -3,7 +3,7 @@ import { client } from "./matrix.mjs";
 import fetch from "node-fetch";
 import { ticketToString } from "./helpers.mjs";
 import * as crypto from "crypto";
-import {store} from "./store.mjs";
+import { store } from "./store.mjs";
 
 global.fetch = fetch;
 
@@ -13,9 +13,16 @@ const app = express();
 const router = express.Router();
 
 router
+  .use(
+    express.json({
+      verify(req, res, buf, encoding) {
+        req.rawBody = buf;
+      },
+    })
+  )
   .use((req, res, next) => {
     const hmac = crypto.createHmac('sha1', store.taiga.webhookSecret);
-    hmac.write(req.body);
+    hmac.write(req.rawBody);
     hmac.end();
     const hash = hmac.read().toString('hex');
     if (req.headers['X-TAIGA-WEBHOOK-SIGNATURE'] !== hash) {
@@ -25,8 +32,7 @@ router
       return;
     }
     next();
-  })
-  .use(express.json());
+  });
 
 app.use('/api/v1', router);
 
