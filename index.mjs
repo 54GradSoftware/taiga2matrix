@@ -25,7 +25,7 @@ router
     hmac.write(req.rawBody);
     hmac.end();
     const hash = hmac.read().toString('hex');
-    if (req.headers['X-TAIGA-WEBHOOK-SIGNATURE'] !== hash) {
+    if (req.headers['x-taiga-webhook-signature'] !== hash) {
       res.status(403);
       res.send({ message: 'event is missing data' });
       console.log('unauthorized:', req.headers);
