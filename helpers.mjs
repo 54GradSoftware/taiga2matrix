@@ -1,7 +1,7 @@
 export const ticketToString = ticket => `
-Titel: ${ ticket.subject }
-Beschreibung: ${ ticket.description }
-Status: ${ ticket.status?.name ?? '- kein Status -' }
-Creator: ${ ticket.owner?.full_name }
-Zugewiesen an: ${ ticket.assigned_to?.full_name ?? '- nicht zugewiesen -' }
+Id: ${ ticket.id }
+Titel: ${ ticket.subject.slice(0, 40) }
+Status: ${ ticket.status?.name ?? 'kein Status' }
+Zugewiesen an: ${ ticket.assigned_to?.full_name ?? 'nicht zugewiesen' }
+Link: ${ ticket.permalink }
 `;
