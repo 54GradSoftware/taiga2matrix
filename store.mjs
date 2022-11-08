@@ -9,5 +9,5 @@ export const store = {
   },
   taiga: {
     webhookSecret: process.env.TAIGA_WEBHOOK_SECRET,
-  }
+  },
 };
