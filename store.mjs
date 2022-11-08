@@ -11,3 +11,5 @@ export const store = {
     webhookSecret: process.env.TAIGA_WEBHOOK_SECRET,
   },
 };
+
+console.log('store:', store);

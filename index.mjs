@@ -27,8 +27,7 @@ router
     const hash = hmac.read().toString('hex');
     if (req.headers['x-taiga-webhook-signature'] !== hash) {
       res.status(403);
-      res.send({ message: 'event is missing data' });
-      console.log('unauthorized:', req.headers, hash, req.rawBody);
+      res.send({ message: 'unauthorized' });
       return;
     }
     next();
@@ -37,9 +36,8 @@ router
 app.use('/api/v1', router);
 
 router.post('/hook/:roomId/event', async (req, res) => {
-  console.log('event:', req.body);
   const { roomId } = req.params;
-  const event = req.body?.content?.body;
+  const event = req.body;
   if (!event) {
     res.status(400);
     res.send({ message: 'event is missing data' });
@@ -76,6 +74,7 @@ router.post('/hook/:roomId/event', async (req, res) => {
   } catch (e) {
     res.status(500);
     res.send({ message: 'failed to sent matrix event' });
+    console.error(e);
   }
 });
 
