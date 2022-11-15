@@ -14,9 +14,8 @@ export const ticketToBody = ticket => {
             break;
         }
     }
-    `Ticket #${ticket.data?.ref} "${ ticket.data?.subject.slice(0, 40) }" ${actionText} von ${ ticket.by?.username ?? 'Unbekannt'} 
+    return `Ticket #${ticket.data?.ref} "${ ticket.data?.subject.slice(0, 40) }" ${actionText} von ${ ticket.by?.username ?? 'Unbekannt'} 
     ${ ticket.data?.status?.name ?? 'kein Status' } 👤 ${ ticket.data?.assigned_to?.username ?? 'nicht zugewiesen' }
-    ${ ticket.data?.permalink }ticket
-`;
+    ${ ticket.data?.permalink }`;
 
 }

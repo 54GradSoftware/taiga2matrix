@@ -37,14 +37,14 @@ app.use('/api/v1', router);
 
 router.post('/hook/:roomId/event', async (req, res) => {
   const { roomId } = req.params;
-  const event = req.body;
-  if (!event) {
+  const ticket = req.body;
+  if (!ticket) {
     res.status(400);
     res.send({ message: 'event is missing data' });
     return;
   }
   try {
-    const body = ticketToBody(event)
+    const body = ticketToBody(ticket)
     if(body){
       await client.sendMessage(roomId, {
         body,
