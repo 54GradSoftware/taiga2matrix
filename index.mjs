@@ -47,19 +47,19 @@ router.post('/hook/:roomId/event', async (req, res) => {
     switch (req.body.action) {
       case 'create': {
         await client.sendMessage(roomId, {
-          "body": `${ event.by?.full_name ?? 'Unbekannt' } hat ein neues Ticket erstellt: ${ ticketToString(event.data) }`,
+          "body": `Neues Ticket von: ${ event.by?.username ?? 'Unbekannt' } ${ ticketToString(event.data) }`,
           "msgtype": "m.notice",
         });
         break;
       } case 'change': {
         await client.sendMessage(roomId, {
-          "body": `${ event.by?.full_name ?? 'Unbekannt'} hat ein Ticket geändert: ${ ticketToString(event.data) }`,
+          "body": `Ticket geändert von: ${ event.by?.username ?? 'Unbekannt'} ${ ticketToString(event.data) }`,
           "msgtype": "m.notice",
         });
         break;
       } case 'delete': {
         await client.sendMessage(roomId, {
-          "body": `${ event.by?.full_name ?? 'Unbekannt'} hat ein Ticket gelöscht: ${ ticketToString(event.data) }`,
+          "body": `Ticket gelöscht von: ${ event.by?.username ?? 'Unbekannt'} ${ ticketToString(event.data) }`,
           "msgtype": "m.notice",
         });
         break;
