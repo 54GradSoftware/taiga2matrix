@@ -1,21 +1,10 @@
 export const ticketToBody = ticket => {
-    let actionText = ''
-    switch (ticket.action) {
-        case 'create': {
-            actionText = 'erstellt ➕'
-            break;
-        }
-        case 'change': {
-            actionText = 'geändert ⛵'
-            break;
-        }
-        case 'delete': {
-            actionText = 'gelöscht ➖'
-            break;
-        }
-    }
-    return `Ticket #${ticket.data?.ref} "${ ticket.data?.subject.slice(0, 40) }" ${actionText} von ${ ticket.by?.username ?? 'Unbekannt'} 
-    ${ ticket.data?.status?.name ?? 'kein Status' } 👤 ${ ticket.data?.assigned_to?.username ?? 'nicht zugewiesen' }
-    ${ ticket.data?.permalink }`;
-
-}
+  const actionTexts = new Map([
+    ['create', 'erstellt ➕'],
+    ['change', 'geändert ⛵'],
+    ['delete', 'gelöscht ➖'],
+  ]);
+  return `Ticket #${ticket.data?.ref} "${ticket.data?.subject.slice(0, 40)}" ${actionTexts.get(ticket.action) ?? ticket.action} von ${ticket.by?.username ?? 'Unbekannt'} 
+    ${ticket.data?.status?.name ?? 'kein Status'} 👤 ${ticket.data?.assigned_to?.username ?? 'nicht zugewiesen'}
+    ${ticket.data?.permalink}`;
+};

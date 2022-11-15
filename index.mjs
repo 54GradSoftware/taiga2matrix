@@ -44,17 +44,14 @@ router.post('/hook/:roomId/event', async (req, res) => {
     return;
   }
   try {
-    const body = ticketToBody(ticket)
-    if (body) {
-      await client.sendMessage(roomId, {
-        body,
-        "msgtype": "m.notice",
-      });
-      res.status(200);
-      res.send({ message: 'successfully sent matrix event' });
-    } else {
-      throw new Error('Wrong ticket action');
-    }
+    const body = ticketToBody(ticket);
+    if (!body) throw new Error('Wrong ticket action');
+    await client.sendMessage(roomId, {
+      body,
+      "msgtype": "m.notice",
+    });
+    res.status(200);
+    res.send({ message: 'successfully sent matrix event' });
   } catch (e) {
     res.status(500);
     res.send({ message: 'failed to sent matrix event' });
