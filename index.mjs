@@ -1,7 +1,7 @@
 import express from "express";
 import { client } from "./matrix.mjs";
 import fetch from "node-fetch";
-import { ticketToString } from "./helpers.mjs";
+import { ticketToBody } from "./helpers.mjs";
 import * as crypto from "crypto";
 import { store } from "./store.mjs";
 
@@ -45,14 +45,14 @@ router.post('/hook/:roomId/event', async (req, res) => {
   }
   try {
     const body = ticketToBody(ticket)
-    if(body){
+    if (body) {
       await client.sendMessage(roomId, {
         body,
         "msgtype": "m.notice",
       });
       res.status(200);
       res.send({ message: 'successfully sent matrix event' });
-    }else{
+    } else {
       throw new Error('Wrong ticket action');
     }
   } catch (e) {
