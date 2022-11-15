@@ -1,3 +1,22 @@
-export const ticketToString = ticket => `#${ ticket.ref } **${ ticket.subject.slice(0, 40) }** 📃 ${ ticket.status?.name ?? 'kein Status' } 👤 ${ ticket.assigned_to?.full_name ?? 'nicht zugewiesen' }
-${ ticket.permalink }
+export const ticketToBody = ticket => {
+    let actionText = ''
+    switch (ticket.action) {
+        case 'create': {
+            actionText = 'erstellt ➕'
+            break;
+        }
+        case 'change': {
+            actionText = 'geändert ⛵'
+            break;
+        }
+        case 'delete': {
+            actionText = 'gelöscht ➖'
+            break;
+        }
+    }
+    `Ticket #${ticket.ref} "${ ticket.data.subject.slice(0, 40) }" ${actionText} von ${ ticket.by?.username ?? 'Unbekannt'} 
+    ${ ticket.data.status?.name ?? 'kein Status' } 👤 ${ ticket.data.data.assigned_to?.username ?? 'nicht zugewiesen' }
+    ${ ticket.data.permalink }
 `;
+
+}

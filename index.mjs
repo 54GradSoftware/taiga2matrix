@@ -44,33 +44,17 @@ router.post('/hook/:roomId/event', async (req, res) => {
     return;
   }
   try {
-    switch (req.body.action) {
-      case 'create': {
-        await client.sendMessage(roomId, {
-          "body": `Neues Ticket von: ${ event.by?.username ?? 'Unbekannt' } ${ ticketToString(event.data) }`,
-          "msgtype": "m.notice",
-        });
-        break;
-      } case 'change': {
-        await client.sendMessage(roomId, {
-          "body": `Ticket geändert von: ${ event.by?.username ?? 'Unbekannt'} ${ ticketToString(event.data) }`,
-          "msgtype": "m.notice",
-        });
-        break;
-      } case 'delete': {
-        await client.sendMessage(roomId, {
-          "body": `Ticket gelöscht von: ${ event.by?.username ?? 'Unbekannt'} ${ ticketToString(event.data) }`,
-          "msgtype": "m.notice",
-        });
-        break;
-      } default: {
-        res.status(200);
-        res.send({ message: 'received data but did not send matrix event' });
-        return;
-      }
+    const body = ticketToBody(event)
+    if(body){
+      await client.sendMessage(roomId, {
+        body,
+        "msgtype": "m.notice",
+      });
+      res.status(200);
+      res.send({ message: 'successfully sent matrix event' });
+    }else{
+      throw new Error('Wrong ticket action');
     }
-    res.status(200);
-    res.send({ message: 'successfully sent matrix event' });
   } catch (e) {
     res.status(500);
     res.send({ message: 'failed to sent matrix event' });
